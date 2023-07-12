@@ -10,3 +10,14 @@
 li {
   list-style: none;
 }
+
+input[type="color"] {
+  cursor: pointer;
+}
+
+input[type="number"] {
+  padding: 2px 5px;
+  border: 1px solid $dark;
+  border-radius: 5px;
+}
+
