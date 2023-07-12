@@ -3,31 +3,47 @@ import BrushIcon from "../assets/BrushIcon.tsx";
 import RectIcon from "../assets/RectIcon.tsx";
 import CircleIcon from "../assets/CircleIcon.tsx";
 import CustomButton from "./CustomButton.tsx";
+import { changeColor, colorSelector } from "../store/slices/SettingsSlice.ts";
+import { useAppDispatch, useAppSelector } from "../hooks.ts";
+import LineIcon from "../assets/LineIcon.tsx";
 
 export default function ToolBar() {
+  const color = useAppSelector(colorSelector);
+  const dispatch = useAppDispatch();
   return (
     <div className='toolbar'>
       <ul className='toolbar__list'>
         <li>
           <CustomButton>
-            <BrushIcon />
+            <BrushIcon color={color} />
           </CustomButton>
         </li>
         <li>
           <CustomButton>
-            <RectIcon />
+            <LineIcon color={color} />
           </CustomButton>
         </li>
         <li>
           <CustomButton>
-            <CircleIcon />
+            <RectIcon color={color}/>
+          </CustomButton>
+        </li>
+        <li>
+          <CustomButton>
+            <CircleIcon color={color} />
           </CustomButton>
         </li>
         <li>
           <CustomButton className='button_erase' />
         </li>
         <li>
-          <input type='color' />
+          <input
+            onChange={(e) => {
+              dispatch(changeColor(e.target.value));
+            }}
+            value={color}
+            type='color'
+          />
         </li>
       </ul>
       <ul className='toolbar__list'>
