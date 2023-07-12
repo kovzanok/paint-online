@@ -2,6 +2,7 @@
 @import "./placeholders";
 
 .settingsbar {
+  position: relative;
   @extend %bar;
   &__list {
     @extend %list;
