@@ -1,0 +1,30 @@
+@import "./vars";
+@import "./placeholders";
+.button {
+  @extend %transition;
+  display: flex;
+  justify-content: center;
+  background-color: $light;
+  border-radius: 5px;
+  border: 1px solid $dark;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px;
+  width: 35px;
+  height: 35px;
+  &_erase {
+    background: url("../assets/eraser.svg") no-repeat center;
+  }
+  &_undo {
+    background: url("../assets/undo.png") no-repeat center;
+  }
+  &_redo {
+    background: url("../assets/redo.png") no-repeat center;
+  }
+  &_save {
+    background: url("../assets/save.png") no-repeat center;
+  }
+  &:hover {
+    background-color: $hover;
+  }
+}
