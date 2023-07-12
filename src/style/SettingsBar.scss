@@ -1,1 +1,14 @@
 @import "./vars";
+@import "./placeholders";
+
+.settingsbar {
+  @extend %bar;
+  &__list {
+    @extend %list;
+  }
+  &__label {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+  }
+}
