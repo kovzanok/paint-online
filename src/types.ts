@@ -1,0 +1,3 @@
+type IconProps = {
+  color: string;
+};
