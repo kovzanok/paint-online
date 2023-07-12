@@ -1,3 +1,16 @@
 %transition {
   transition: all 0.3s ease;
 }
+
+%bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  box-shadow: 0px 0px 5px black;
+}
+
+%list {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
