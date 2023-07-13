@@ -3,7 +3,6 @@ import Tool from "./Tool";
 export default class Brush extends Tool {
   constructor(toolParams: ToolParams) {
     super(toolParams);
-    console.log(toolParams);
     if (this.canvas) {
       this.canvas.onmousedown = this.handleMouseDown.bind(this);
       this.canvas.onmousemove = this.handleMove.bind(this);
