@@ -1,12 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-type SettingsState = {
-  color: string;
-  stroke: string;
-  weight: number;
-};
-
 const initialState: SettingsState = {
   color: "#000",
   stroke: "#000",

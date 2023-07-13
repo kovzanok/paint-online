@@ -1,14 +1,15 @@
 import Tool from "./Tool";
 
 export default class Erase extends Tool {
-  constructor(canvas: HTMLCanvasElement) {
-    super(canvas);
-
-    this.canvas.onmousedown = this.handleMouseDown.bind(this);
-    this.canvas.onmousemove = this.handleMove.bind(this);
-    this.canvas.onmouseup = () => {
-      this.isMouseDown = false;
-    };
+  constructor(toolParams: ToolParams) {
+    super(toolParams);
+    if (this.canvas) {
+      this.canvas.onmousedown = this.handleMouseDown.bind(this);
+      this.canvas.onmousemove = this.handleMove.bind(this);
+      this.canvas.onmouseup = () => {
+        this.isMouseDown = false;
+      };
+    }
     if (this.ctx) {
       this.ctx.strokeStyle = "white";
     }

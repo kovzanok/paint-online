@@ -4,15 +4,14 @@ export default class Rect extends Tool {
   private startX!: number;
   private startY!: number;
   private image!: string;
-  constructor(canvas: HTMLCanvasElement, color: string) {
-    super(canvas, color);
-    this.canvas.onmousedown = this.handleMouseDown.bind(this);
-    this.canvas.onmousemove = this.handleMove.bind(this);
-    this.canvas.onmouseup = () => {
-      this.isMouseDown = false;
-    };
-    if (this.ctx) {
-      this.ctx.fillStyle = color;
+  constructor(toolParams: ToolParams) {
+    super(toolParams);
+    if (this.canvas) {
+      this.canvas.onmousedown = this.handleMouseDown.bind(this);
+      this.canvas.onmousemove = this.handleMove.bind(this);
+      this.canvas.onmouseup = () => {
+        this.isMouseDown = false;
+      };
     }
   }
 
@@ -22,7 +21,7 @@ export default class Rect extends Tool {
     this.startX = e.offsetX;
     this.startY = e.offsetY;
     this.ctx?.moveTo(e.offsetX, e.offsetY);
-    this.image = this.canvas.toDataURL();
+    if (this.canvas) this.image = this.canvas.toDataURL();
   }
 
   private handleMove(e: MouseEvent) {
@@ -40,6 +39,7 @@ export default class Rect extends Tool {
     const image = new Image();
     image.src = this.image;
     image.onload = () => {
+      if (!this.canvas) return;
       this.ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx?.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
       this.ctx?.beginPath();
