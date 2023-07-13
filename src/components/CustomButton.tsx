@@ -3,13 +3,19 @@ import "../style/CustomButton.scss";
 
 type CustomButtonProps = {
   className?: string;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export default function CustomButton({
   children,
   className = "",
+  onClick,
 }: PropsWithChildren<CustomButtonProps>) {
   const classNames = ["button"];
   classNames.push(className);
-  return <button className={classNames.join(" ")}>{children}</button>;
+  return (
+    <button onClick={onClick} className={classNames.join(" ")}>
+      {children}
+    </button>
+  );
 }
