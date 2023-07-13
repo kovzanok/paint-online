@@ -4,13 +4,16 @@ export default class Circle extends Tool {
   private startX!: number;
   private startY!: number;
   private image!: string;
-  constructor(canvas: HTMLCanvasElement) {
-    super(canvas);
+  constructor(canvas: HTMLCanvasElement, color: string) {
+    super(canvas, color);
     this.canvas.onmousedown = this.handleMouseDown.bind(this);
     this.canvas.onmousemove = this.handleMove.bind(this);
     this.canvas.onmouseup = () => {
       this.isMouseDown = false;
     };
+    if (this.ctx) {
+      this.ctx.fillStyle = color;
+    }
   }
 
   private handleMouseDown(e: MouseEvent) {
