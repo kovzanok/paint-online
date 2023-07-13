@@ -1,16 +1,28 @@
-import { Dispatch, SetStateAction, createContext } from "react";
+import { createContext } from "react";
 import Tool from "./tools/Tool";
 
-const CanvasContext = createContext<
-  | [
-      HTMLCanvasElement | null,
-      Dispatch<SetStateAction<HTMLCanvasElement | null>>
-    ]
-  | null
->(null);
+type ToolContextType = {
+  tool: Tool | null;
+  setTool: React.Dispatch<React.SetStateAction<Tool | null>>;
+};
 
-const ToolContext = createContext<
-  [Tool | null, Dispatch<SetStateAction<Tool | null>>] | null
->(null);
+const ToolContextState = {
+  tool: null,
+  setTool: () => {},
+};
+
+const ToolContext = createContext<ToolContextType>(ToolContextState);
+
+type CanvasContextType = {
+  canvas: HTMLCanvasElement | null;
+  setCanvas: React.Dispatch<React.SetStateAction<HTMLCanvasElement | null>>;
+};
+
+const CanvasContexState = {
+  canvas: null,
+  setCanvas: () => {},
+};
+
+const CanvasContext = createContext<CanvasContextType>(CanvasContexState);
 
 export { CanvasContext, ToolContext };

@@ -13,8 +13,8 @@ function App() {
   const [tool, setTool] = useState<Tool | null>(null);
   return (
     <>
-      <ToolContext.Provider value={[tool, setTool]}>
-        <CanvasContext.Provider value={[canvas, setCanvas]}>
+      <ToolContext.Provider value={{ tool, setTool }}>
+        <CanvasContext.Provider value={{ canvas, setCanvas }}>
           <Provider store={store}>
             <ToolBar />
             <SettingsBar />

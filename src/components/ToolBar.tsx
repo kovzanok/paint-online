@@ -15,10 +15,8 @@ import { CanvasContext, ToolContext } from "../context.ts";
 import Rect from "../tools/Rect.ts";
 
 export default function ToolBar() {
-  const context = useContext(CanvasContext);
-  const toolContext = useContext(ToolContext);
-  const canvas = context?.[0];
-  const setTool = toolContext?.[1];
+  const { canvas } = useContext(CanvasContext);
+  const { setTool } = useContext(ToolContext);
   const color = useAppSelector(colorSelector);
   const dispatch = useAppDispatch();
   return (

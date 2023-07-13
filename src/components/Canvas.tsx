@@ -5,10 +5,8 @@ import { CanvasContext, ToolContext } from "../context";
 import Brush from "../tools/Brush";
 
 export default function Canvas() {
-  const context = useContext(CanvasContext);
-  const toolContext = useContext(ToolContext);
-  const setTool = toolContext?.[1];
-  const setCanvas = context?.[1];
+  const { setCanvas } = useContext(CanvasContext);
+  const { setTool } = useContext(ToolContext);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
