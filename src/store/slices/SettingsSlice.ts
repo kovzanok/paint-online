@@ -31,3 +31,11 @@ export const { changeColor, changeStroke, changeWeight } =
 export const colorSelector = (state: RootState) => {
   return state.settings.color;
 };
+
+export const strokeSelector = (state: RootState) => {
+  return state.settings.stroke;
+};
+
+export const weightSelector = (state: RootState) => {
+  return state.settings.weight;
+};
