@@ -8,6 +8,9 @@ export default class Brush extends Tool {
     this.canvas.onmouseup = () => {
       this.isMouseDown = false;
     };
+    if (this.ctx) {
+      this.ctx.strokeStyle = "black";
+    }
   }
 
   private handleMouseDown(e: MouseEvent) {
