@@ -16,19 +16,15 @@ const ToolContext = createContext<ToolContextType>(ToolContextState);
 type CanvasContextType = {
   canvas: HTMLCanvasElement | null;
   setCanvas: React.Dispatch<React.SetStateAction<HTMLCanvasElement | null>>;
-  undoList: string[];
-  setUndoList: React.Dispatch<React.SetStateAction<string[]>>;
-  redoList: string[];
-  setRedoList: React.Dispatch<React.SetStateAction<string[]>>;
+  socket: WebSocket | null;
+  setSocket: React.Dispatch<React.SetStateAction<WebSocket | null>>;
 };
 
 const CanvasContexState = {
   canvas: null,
   setCanvas: () => {},
-  undoList: [],
-  setUndoList: () => {},
-  redoList: [],
-  setRedoList: () => {},
+  socket: null,
+  setSocket: () => {},
 };
 
 const CanvasContext = createContext<CanvasContextType>(CanvasContexState);
