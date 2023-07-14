@@ -11,10 +11,21 @@ import Tool from "./tools/Tool";
 function App() {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [tool, setTool] = useState<Tool | null>(null);
+  const [undoList, setUndoList] = useState<string[]>([]);
+  const [redoList, setRedoList] = useState<string[]>([]);
   return (
     <>
       <ToolContext.Provider value={{ tool, setTool }}>
-        <CanvasContext.Provider value={{ canvas, setCanvas }}>
+        <CanvasContext.Provider
+          value={{
+            canvas,
+            setCanvas,
+            undoList,
+            setUndoList,
+            redoList,
+            setRedoList,
+          }}
+        >
           <Provider store={store}>
             <ToolBar />
             <SettingsBar />
