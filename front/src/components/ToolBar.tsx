@@ -17,6 +17,7 @@ import Erase from "../tools/Erase.ts";
 import CustomRadioButton from "./CustomRadioButton.tsx";
 import { updateCanvasImage } from "../utils.ts";
 import { listSelector, redo, undo } from "../store/slices/CanvasImgSlice.ts";
+import { useParams } from "react-router-dom";
 
 type ToolConstructorType = new (toolParams: ToolParams) => Tool;
 
@@ -25,6 +26,7 @@ export default function ToolBar() {
   const dispatch = useAppDispatch();
   const updateTool = useToolUpdate();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const { id } = useParams();
   const { canvas } = useContext(CanvasContext);
   const { setTool } = useContext(ToolContext);
   const settings = useAppSelector((state) => state.settings);
@@ -59,6 +61,18 @@ export default function ToolBar() {
     if (lastRedo) {
       dispatch(redo(canvas.toDataURL()));
       updateCanvasImage(lastRedo, canvas);
+    }
+  };
+
+  const handleSave = () => {
+    if (canvas && id) {
+      const imgData = canvas.toDataURL();
+      const a = document.createElement("a");
+      a.href = imgData;
+      a.download = `${id}.jpg`;
+      document.body.append(a);
+      a.click();
+      a.remove();
     }
   };
 
@@ -125,7 +139,7 @@ export default function ToolBar() {
           />
         </li>
         <li>
-          <CustomButton className='button_save' />
+          <CustomButton onClick={handleSave} className='button_save' />
         </li>
       </ul>
     </div>
