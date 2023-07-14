@@ -15,6 +15,7 @@ import Line from "../tools/Line.ts";
 import Circle from "../tools/Circle.ts";
 import Erase from "../tools/Erase.ts";
 import CustomRadioButton from "./CustomRadioButton.tsx";
+import { updateCanvasImage } from "../utils.ts";
 
 type ToolConstructorType = new (toolParams: ToolParams) => Tool;
 
@@ -43,35 +44,24 @@ export default function ToolBar() {
     const undoListCopy = undoList.slice();
     const lastUndo = undoListCopy.pop();
     const ctx = canvas?.getContext("2d");
-    if (!ctx || !canvas) return;
+    if (!canvas) return;
     if (lastUndo) {
       setRedoList([...redoList, canvas.toDataURL()]);
       setUndoList(undoListCopy);
-      const image = new Image();
-      image.src = lastUndo;
-      image.onload = () => {
-        ctx.clearRect(0, 0, canvas?.width, canvas?.height);
-        ctx.drawImage(image, 0, 0);
-      };
+      updateCanvasImage(lastUndo, canvas);
     } else {
-      ctx.clearRect(0, 0, canvas?.width, canvas?.height);
+      ctx?.clearRect(0, 0, canvas?.width, canvas?.height);
     }
   };
 
   const redo = () => {
     const redoListCopy = redoList.slice();
     const lastRedo = redoListCopy.pop();
-    const ctx = canvas?.getContext("2d");
-    if (!ctx || !canvas) return;
+    if (!canvas) return;
     if (lastRedo) {
       setRedoList(redoListCopy);
       setUndoList([...undoList, canvas.toDataURL()]);
-      const image = new Image();
-      image.src = lastRedo;
-      image.onload = () => {
-        ctx.clearRect(0, 0, canvas?.width, canvas?.height);
-        ctx.drawImage(image, 0, 0);
-      };
+      updateCanvasImage(lastRedo, canvas);
     }
   };
 
