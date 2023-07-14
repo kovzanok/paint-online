@@ -7,12 +7,13 @@ export default class Erase extends Tool {
       this.canvas.onmousedown = this.handleMouseDown.bind(this);
       this.canvas.onmousemove = this.handleMove.bind(this);
       this.canvas.onmouseup = () => {
+        
         this.isMouseDown = false;
       };
     }
     if (this.ctx) {
       this.ctx.strokeStyle = "white";
-      this.ctx.globalCompositeOperation = "destination-out";
+      
     }
   }
 
@@ -31,5 +32,6 @@ export default class Erase extends Tool {
   private draw(x: number, y: number) {
     this.ctx?.lineTo(x, y);
     this.ctx?.stroke();
+    
   }
 }
