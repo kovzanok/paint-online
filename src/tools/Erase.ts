@@ -12,6 +12,7 @@ export default class Erase extends Tool {
     }
     if (this.ctx) {
       this.ctx.strokeStyle = "white";
+      this.ctx.globalCompositeOperation = "destination-out";
     }
   }
 

@@ -15,6 +15,7 @@ export default class Tool {
       this.ctx.lineWidth = this.weight;
       this.ctx.strokeStyle = this.stroke;
       this.ctx.fillStyle = this.color;
+      this.ctx.globalCompositeOperation = 'source-over';
     }
   }
 
