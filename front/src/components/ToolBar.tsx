@@ -16,15 +16,16 @@ import Circle from "../tools/Circle.ts";
 import Erase from "../tools/Erase.ts";
 import CustomRadioButton from "./CustomRadioButton.tsx";
 import { updateCanvasImage } from "../utils.ts";
+import { listSelector, redo, undo } from "../store/slices/CanvasImgSlice.ts";
 
 type ToolConstructorType = new (toolParams: ToolParams) => Tool;
 
 export default function ToolBar() {
+  const { undoList, redoList } = useAppSelector(listSelector);
   const dispatch = useAppDispatch();
   const updateTool = useToolUpdate();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { canvas, undoList, setUndoList, redoList, setRedoList } =
-    useContext(CanvasContext);
+  const { canvas } = useContext(CanvasContext);
   const { setTool } = useContext(ToolContext);
   const settings = useAppSelector((state) => state.settings);
   const color = useAppSelector(colorSelector);
@@ -40,27 +41,23 @@ export default function ToolBar() {
     if (input) input.checked = true;
   }, []);
 
-  const undo = () => {
-    const undoListCopy = undoList.slice();
-    const lastUndo = undoListCopy.pop();
+  const handleUndo = () => {
+    const lastUndo = undoList.at(-1);
     const ctx = canvas?.getContext("2d");
     if (!canvas) return;
     if (lastUndo) {
-      setRedoList([...redoList, canvas.toDataURL()]);
-      setUndoList(undoListCopy);
+      dispatch(undo(canvas.toDataURL()));
       updateCanvasImage(lastUndo, canvas);
     } else {
       ctx?.clearRect(0, 0, canvas?.width, canvas?.height);
     }
   };
 
-  const redo = () => {
-    const redoListCopy = redoList.slice();
-    const lastRedo = redoListCopy.pop();
+  const handleRedo = () => {
+    const lastRedo = redoList.at(-1);
     if (!canvas) return;
     if (lastRedo) {
-      setRedoList(redoListCopy);
-      setUndoList([...undoList, canvas.toDataURL()]);
+      dispatch(redo(canvas.toDataURL()));
       updateCanvasImage(lastRedo, canvas);
     }
   };
@@ -116,14 +113,14 @@ export default function ToolBar() {
         <li>
           <CustomButton
             disabled={undoList.length === 0}
-            onClick={undo}
+            onClick={handleUndo}
             className='button_undo'
           />
         </li>
         <li>
           <CustomButton
             disabled={redoList.length == 0}
-            onClick={redo}
+            onClick={handleRedo}
             className='button_redo'
           />
         </li>
