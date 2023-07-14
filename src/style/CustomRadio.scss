@@ -1,0 +1,29 @@
+@import "./vars";
+@import "./placeholders";
+.label {
+  @extend %transition;
+  display: flex;
+  justify-content: center;
+  background-color: $light;
+  border-radius: 5px;
+  border: 1px solid $dark;
+  align-items: center;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  &_erase {
+    background: url("../assets/eraser.svg") no-repeat center;
+  }
+
+  &:hover {
+    background-color: $hover;
+  }
+}
+
+.radio-input {
+  display: none;
+  &:checked + .label {
+    transform: scale(0.9);
+    border: 3px solid $dark;
+  }
+}
