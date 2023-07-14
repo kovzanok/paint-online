@@ -22,11 +22,12 @@ export default function ToolBar() {
   const dispatch = useAppDispatch();
   const updateTool = useToolUpdate();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { canvas } = useContext(CanvasContext);
+  const { canvas, undoList, setUndoList, redoList, setRedoList } =
+    useContext(CanvasContext);
   const { setTool } = useContext(ToolContext);
   const settings = useAppSelector((state) => state.settings);
   const color = useAppSelector(colorSelector);
-
+  console.log(undoList, redoList);
   const toolParams = { canvas, ...settings };
 
   const changeTool = (ToolConstructor: ToolConstructorType) => {
@@ -37,6 +38,43 @@ export default function ToolBar() {
     const input = inputRef.current;
     if (input) input.checked = true;
   }, []);
+
+  const undo = () => {
+    const undoListCopy = undoList.slice();
+    const lastUndo = undoListCopy.pop();
+    const ctx = canvas?.getContext("2d");
+    if (!ctx || !canvas) return console.log("EEEEnd");
+    if (lastUndo) {
+      setRedoList([...redoList, canvas.toDataURL()]);
+      setUndoList(undoListCopy);
+      const image = new Image();
+      image.src = lastUndo;
+      image.onload = () => {
+        ctx.clearRect(0, 0, canvas?.width, canvas?.height);
+        ctx.drawImage(image, 0, 0);
+      };
+    } else {
+      ctx.clearRect(0, 0, canvas?.width, canvas?.height);
+    }
+  };
+
+  const redo = () => {
+    const redoListCopy = redoList.slice();
+    const lastRedo = redoListCopy.pop();
+    const ctx = canvas?.getContext("2d");
+    if (!ctx || !canvas) return console.log("EEEEnd");
+    if (lastRedo) {
+      setRedoList(redoListCopy);
+      setUndoList([...undoList, canvas.toDataURL()]);
+      const image = new Image();
+      image.src = lastRedo;
+      image.onload = () => {
+        ctx.clearRect(0, 0, canvas?.width, canvas?.height);
+        ctx.drawImage(image, 0, 0);
+      };
+    }
+  };
+
   return (
     <div className='toolbar'>
       <ul className='toolbar__list'>
@@ -83,12 +121,21 @@ export default function ToolBar() {
           />
         </li>
       </ul>
+
       <ul className='toolbar__list'>
         <li>
-          <CustomButton className='button_undo' />
+          <CustomButton
+            disabled={undoList.length === 0}
+            onClick={undo}
+            className='button_undo'
+          />
         </li>
         <li>
-          <CustomButton className='button_redo' />
+          <CustomButton
+            disabled={redoList.length == 0}
+            onClick={redo}
+            className='button_redo'
+          />
         </li>
         <li>
           <CustomButton className='button_save' />
