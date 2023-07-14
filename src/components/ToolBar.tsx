@@ -7,19 +7,21 @@ import { changeColor, colorSelector } from "../store/slices/SettingsSlice.ts";
 import { useAppDispatch, useAppSelector, useToolUpdate } from "../hooks.ts";
 import LineIcon from "../assets/LineIcon.tsx";
 import Brush from "../tools/Brush.ts";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { CanvasContext, ToolContext } from "../context.ts";
 import Rect from "../tools/Rect.ts";
 import Tool from "../tools/Tool.ts";
 import Line from "../tools/Line.ts";
 import Circle from "../tools/Circle.ts";
 import Erase from "../tools/Erase.ts";
+import CustomRadioButton from "./CustomRadioButton.tsx";
 
 type ToolConstructorType = new (toolParams: ToolParams) => Tool;
 
 export default function ToolBar() {
   const dispatch = useAppDispatch();
   const updateTool = useToolUpdate();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const { canvas } = useContext(CanvasContext);
   const { setTool } = useContext(ToolContext);
   const settings = useAppSelector((state) => state.settings);
@@ -30,33 +32,43 @@ export default function ToolBar() {
   const changeTool = (ToolConstructor: ToolConstructorType) => {
     setTool(new ToolConstructor(toolParams));
   };
+
+  useEffect(() => {
+    const input = inputRef.current;
+    if (input) input.checked = true;
+  }, []);
   return (
     <div className='toolbar'>
       <ul className='toolbar__list'>
         <li>
-          <CustomButton onClick={() => changeTool(Brush)}>
+          <CustomRadioButton
+            ref={inputRef}
+            id='brush'
+            onChange={() => changeTool(Brush)}
+          >
             <BrushIcon color={settings.stroke} />
-          </CustomButton>
+          </CustomRadioButton>
         </li>
         <li>
-          <CustomButton onClick={() => changeTool(Line)}>
+          <CustomRadioButton id='line' onChange={() => changeTool(Line)}>
             <LineIcon color={settings.stroke} />
-          </CustomButton>
+          </CustomRadioButton>
         </li>
         <li>
-          <CustomButton onClick={() => changeTool(Rect)}>
+          <CustomRadioButton id='rect' onChange={() => changeTool(Rect)}>
             <RectIcon stroke={settings.stroke} color={settings.color} />
-          </CustomButton>
+          </CustomRadioButton>
         </li>
         <li>
-          <CustomButton onClick={() => changeTool(Circle)}>
+          <CustomRadioButton id='circle' onChange={() => changeTool(Circle)}>
             <CircleIcon stroke={settings.stroke} color={color} />
-          </CustomButton>
+          </CustomRadioButton>
         </li>
         <li>
-          <CustomButton
-            onClick={() => changeTool(Erase)}
-            className='button_erase'
+          <CustomRadioButton
+            id='erase'
+            onChange={() => changeTool(Erase)}
+            className='label_erase'
           />
         </li>
         <li>
