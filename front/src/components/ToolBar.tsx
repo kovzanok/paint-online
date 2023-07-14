@@ -27,7 +27,7 @@ export default function ToolBar() {
   const { setTool } = useContext(ToolContext);
   const settings = useAppSelector((state) => state.settings);
   const color = useAppSelector(colorSelector);
-  console.log(undoList, redoList);
+
   const toolParams = { canvas, ...settings };
 
   const changeTool = (ToolConstructor: ToolConstructorType) => {
@@ -43,7 +43,7 @@ export default function ToolBar() {
     const undoListCopy = undoList.slice();
     const lastUndo = undoListCopy.pop();
     const ctx = canvas?.getContext("2d");
-    if (!ctx || !canvas) return console.log("EEEEnd");
+    if (!ctx || !canvas) return;
     if (lastUndo) {
       setRedoList([...redoList, canvas.toDataURL()]);
       setUndoList(undoListCopy);
@@ -62,7 +62,7 @@ export default function ToolBar() {
     const redoListCopy = redoList.slice();
     const lastRedo = redoListCopy.pop();
     const ctx = canvas?.getContext("2d");
-    if (!ctx || !canvas) return console.log("EEEEnd");
+    if (!ctx || !canvas) return;
     if (lastRedo) {
       setRedoList(redoListCopy);
       setUndoList([...undoList, canvas.toDataURL()]);
