@@ -46,6 +46,7 @@ export default function Canvas() {
           break;
       }
     };
+    return () => socket.close();
   }, []);
 
   const mouseDownHandler = () => {
