@@ -22,7 +22,12 @@
   &_save {
     background: url("../assets/save.png") no-repeat center;
   }
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: $hover;
+  }
+  &:disabled {
+    cursor: default;
+    background-color: rgba(239, 239, 239, 0.3);
+    filter: invert(60%);
   }
 }
