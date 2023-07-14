@@ -1,3 +1,4 @@
+import { updateCanvasImage } from "../utils";
 import Tool from "./Tool";
 
 export default class Rect extends Tool {
@@ -36,17 +37,13 @@ export default class Rect extends Tool {
   }
 
   private draw(x: number, y: number, w: number, h: number) {
-    const image = new Image();
-    image.src = this.image;
-    image.onload = () => {
-      if (!this.canvas) return;
-      this.ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx?.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+    if (!this.canvas) return;
+    updateCanvasImage(this.image, this.canvas, () => {
       this.ctx?.beginPath();
       this.ctx?.strokeRect(x, y, w, h);
       this.ctx?.fillRect(x, y, w, h);
       this.ctx?.fill();
       this.ctx?.stroke();
-    };
+    });
   }
 }

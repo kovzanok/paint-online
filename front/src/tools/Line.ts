@@ -1,3 +1,4 @@
+import { updateCanvasImage } from "../utils";
 import Tool from "./Tool";
 
 export default class Line extends Tool {
@@ -31,16 +32,12 @@ export default class Line extends Tool {
   }
 
   private draw(x: number, y: number) {
-    const image = new Image();
-    image.src = this.image;
-    image.onload = () => {
-      if (!this.canvas) return;
-      this.ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx?.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+    if (!this.canvas) return;
+    updateCanvasImage(this.image, this.canvas, () => {
       this.ctx?.beginPath();
       this.ctx?.moveTo(this.startX, this.startY);
       this.ctx?.lineTo(x, y);
       this.ctx?.stroke();
-    };
+    });
   }
 }

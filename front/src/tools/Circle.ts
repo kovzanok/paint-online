@@ -1,3 +1,4 @@
+import { updateCanvasImage } from "../utils";
 import Tool from "./Tool";
 
 export default class Circle extends Tool {
@@ -34,16 +35,12 @@ export default class Circle extends Tool {
   }
 
   private draw(x: number, y: number, r: number) {
-    const image = new Image();
-    image.src = this.image;
-    image.onload = () => {
-      if (!this.canvas) return;
-      this.ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx?.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+    if (!this.canvas) return;
+    updateCanvasImage(this.image, this.canvas, () => {
       this.ctx?.beginPath();
       this.ctx?.arc(x, y, r, 0, 2 * Math.PI);
       this.ctx?.fill();
       this.ctx?.stroke();
-    };
+    });
   }
 }
